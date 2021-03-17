@@ -30,16 +30,6 @@ stages:
         PathtoPublish: '$(build.artifactstagingdirectory)'
       condition: succeededOrFailed()
 
-- stage: Deploy
-  displayName: 'Deploy Sql Database' 
-  jobs:
-  - deployment: sqlDacPac
-    displayName: sql1
-    environment:
-     name: sql-development
-     resourceType: VirtualMachine
-     tags: mssql1
-
 - stage: CD
   displayName: CD stage
   jobs:  
@@ -48,7 +38,7 @@ stages:
     environment:
       name:  sql-development
       resourceType: VirtualMachine
-      tags: mssql1
+      tags: sql
     strategy:
       runOnce:
         deploy:
