@@ -40,23 +40,36 @@ stages:
      resourceType: VirtualMachine
      tags: mssql1
 
-  - job: 'deploysql'
-    steps:
-    - task: DownloadBuildArtifacts@0
-      inputs:
-         buildType: current
-         downloadType: single
-         downloadPath: $(System.DefaultWorkingDirectory)
-         artifactName: 'drop'
+- stage: CD
+  displayName: CD stage
+  jobs:  
+  - deployment: VMDeploy
+    displayName: mssql1
+    environment:
+      name:  sql-development
+      resourceType: VirtualMachine
+      tags: mssql1
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - download: none
 
-    - task: SqlDacpacDeploymentOnMachineGroup@0
-      displayName: 'Deploy using : dacpac db-ronaldo-correa'
-      inputs:
-          tasktype: 'dacpac'
-          DacpacFile: '$(System.DefaultWorkingDirectory)/drop/db-ronaldo-correa.dacpac'
-          TargetMethod: 'server'
-          ServerName: 'localhost'
-          DatabaseName: 'db-ronaldo-correa'
-          AuthScheme: sqlServerAuthentication
-          SqlUsername: 'sa'
-          SqlPassword: '$(sql-dev-password)'
+          - task: DownloadBuildArtifacts@0
+            inputs:
+              buildType: current
+              downloadType: single
+              downloadPath: $(System.DefaultWorkingDirectory)
+              artifactName: 'drop'
+
+          - task: SqlDacpacDeploymentOnMachineGroup@0
+            displayName: 'Deploy using : dacpac db-ronaldo-correa'
+            inputs:
+                tasktype: 'dacpac'
+                DacpacFile: '$(System.DefaultWorkingDirectory)/drop/db-ronaldo-correa.dacpac'
+                TargetMethod: 'server'
+                ServerName: 'localhost'
+                DatabaseName: 'db-ronaldo-correa'
+                AuthScheme: sqlServerAuthentication
+                SqlUsername: 'sa'
+                SqlPassword: '$(sql-dev-password)'
