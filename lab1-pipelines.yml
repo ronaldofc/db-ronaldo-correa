@@ -27,10 +27,8 @@ stages:
       PathtoPublish: '$(build.artifactstagingdirectory)'
     condition: succeededOrFailed()
 
-
-stages:
 - stage: New-release-db-ronaldo-correa-CD
-  pool: 
+  pool: CIT-326-Winter-2021-MSSQL2019-Development
   steps:
   - task: SqlDacpacDeploymentOnMachineGroup@0
     displayName: 'Deploy using : dacpac db-ronaldo-correa'
