@@ -47,5 +47,5 @@ stages:
           DacpacFile: '$(System.DefaultWorkingDirectory)/drop/db-ronaldo-correa.dacpac'
           DatabaseName: 'db-ronaldo-correa'
           AuthScheme: sqlServerAuthentication
-          SqlUsername: sa
+          SqlUsername: 'sa'
           SqlPassword: '$(sql-dev-password)'
