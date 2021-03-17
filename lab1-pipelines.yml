@@ -31,24 +31,27 @@ stages:
       condition: succeededOrFailed()
 
 - stage: Deploy
-  displayName: 'Deploy Sql Database'
-  dependsOn: 
-  pool:
-    
+  displayName: 'Deploy Sql Database' 
   jobs:
-  
+  - deployment: sql-development
+    displayName: slq1
+    environment:
+     name: sql-development
+     resourceType: VirtualMachine
+     tags: mssql1
+
   - job: 'deploysql'
     steps:
-      - task: DownloadBuildArtifacts@0
-        inputs:
+    - task: DownloadBuildArtifacts@0
+      inputs:
          buildType: current
          downloadType: single
          downloadPath: $(System.DefaultWorkingDirectory)
          artifactName: 'drop'
 
-      - task: SqlDacpacDeploymentOnMachineGroup@0
-        displayName: 'Deploy using : dacpac db-ronaldo-correa'
-        inputs:
+    - task: SqlDacpacDeploymentOnMachineGroup@0
+      displayName: 'Deploy using : dacpac db-ronaldo-correa'
+      inputs:
           tasktype: 'dacpac'
           DacpacFile: '$(System.DefaultWorkingDirectory)/drop/db-ronaldo-correa.dacpac'
           TargetMethod: 'server'
