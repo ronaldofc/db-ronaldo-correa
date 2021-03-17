@@ -38,7 +38,7 @@ stages:
         inputs:
          buildType: current
          downloadType: single
-         downloadPath: $(System.ArtifactsDirectory)
+         downloadPath: $(System.DefaultWorkingDirectory)
          artifactName: 'drop'
 
       - task: SqlDacpacDeploymentOnMachineGroup@0
