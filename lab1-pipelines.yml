@@ -13,7 +13,7 @@ stages:
 - stage: GitHub-db-ronaldo-correa-CI
   pool: Local-Windows
   jobs:
-  - job: 'Copy and upload files to pipeline' 
+  - job: 'Copyfiles' 
     steps:
     - task: CopyFiles@2
       displayName: 'Copy Files from GitHub to Pipeline staging folder'
@@ -29,14 +29,16 @@ stages:
         PathtoPublish: '$(build.artifactstagingdirectory)'
       condition: succeededOrFailed()
 
-  - stage: New-release-db-ronaldo-correa-CD
-    pool: CIT-326-Winter-2021-MSSQL2019-Development
+- stage: New-release-db-ronaldo-correa-CD
+  pool: local-windows
+  jobs:
+  - job: 'deploy-sql'
     steps:
-    - task: SqlDacpacDeploymentOnMachineGroup@0
-      displayName: 'Deploy using : dacpac db-ronaldo-correa'
-      inputs:
-        DacpacFile: '$(System.DefaultWorkingDirectory)/_GitHub-db-ronaldo-correa-CI/drop/db-ronaldo-correa.dacpac'
-        DatabaseName: 'db-ronaldo-correa'
-        AuthScheme: sqlServerAuthentication
-        SqlUsername: sa
-        SqlPassword: '$(sql-dev-password)'
+      - task: SqlDacpacDeploymentOnMachineGroup@0
+        displayName: 'Deploy using : dacpac db-ronaldo-correa'
+        inputs:
+          DacpacFile: '$(System.DefaultWorkingDirectory)/_GitHub-db-ronaldo-correa-CI/drop/db-ronaldo-correa.dacpac'
+          DatabaseName: 'db-ronaldo-correa'
+          AuthScheme: sqlServerAuthentication
+          SqlUsername: sa
+          SqlPassword: '$(sql-dev-password)'
