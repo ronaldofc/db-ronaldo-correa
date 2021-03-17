@@ -10,7 +10,8 @@ pool:
   name: Local-Windows 
 
 stages:
-- stage: CI
+- stage: Build
+  displayName: 'Copy files from GitHub an publish artifact file'
   pool: Local-Windows
   jobs:
   - job: 'Copyfiles' 
@@ -29,9 +30,13 @@ stages:
         PathtoPublish: '$(build.artifactstagingdirectory)'
       condition: succeededOrFailed()
 
-- stage: CD
-  pool: local-windows
+- stage: Deploy
+  displayName: 'Deploy Sql Database'
+  dependsOn: 
+  pool:
+    
   jobs:
+  
   - job: 'deploysql'
     steps:
       - task: DownloadBuildArtifacts@0
@@ -44,7 +49,10 @@ stages:
       - task: SqlDacpacDeploymentOnMachineGroup@0
         displayName: 'Deploy using : dacpac db-ronaldo-correa'
         inputs:
+          tasktype: 'dacpac'
           DacpacFile: '$(System.DefaultWorkingDirectory)/drop/db-ronaldo-correa.dacpac'
+          TargetMethod: 'server'
+          ServerName: 'localhost'
           DatabaseName: 'db-ronaldo-correa'
           AuthScheme: sqlServerAuthentication
           SqlUsername: 'sa'
