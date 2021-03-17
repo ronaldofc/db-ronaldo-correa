@@ -44,7 +44,7 @@ stages:
       - task: SqlDacpacDeploymentOnMachineGroup@0
         displayName: 'Deploy using : dacpac db-ronaldo-correa'
         inputs:
-          DacpacFile: '$(System.DefaultWorkingDirectory)/_GitHub-db-ronaldo-correa-CI/drop/db-ronaldo-correa.dacpac'
+          DacpacFile: '$(System.DefaultWorkingDirectory)/drop/db-ronaldo-correa.dacpac'
           DatabaseName: 'db-ronaldo-correa'
           AuthScheme: sqlServerAuthentication
           SqlUsername: sa
