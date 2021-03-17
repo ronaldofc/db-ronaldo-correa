@@ -32,7 +32,7 @@ stages:
 - stage: CD
   pool: local-windows
   jobs:
-  - job: 'deploy-sql'
+  - job: 'deploysql'
     steps:
       - task: SqlDacpacDeploymentOnMachineGroup@0
         displayName: 'Deploy using : dacpac db-ronaldo-correa'
