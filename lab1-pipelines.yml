@@ -10,7 +10,7 @@ pool:
   name: Local-Windows 
 
 stages:
-- stage: GitHub-db-ronaldo-correa-CI
+- stage: CI
   pool: Local-Windows
   jobs:
   - job: 'Copyfiles' 
@@ -29,7 +29,7 @@ stages:
         PathtoPublish: '$(build.artifactstagingdirectory)'
       condition: succeededOrFailed()
 
-- stage: New-release-db-ronaldo-correa-CD
+- stage: CD
   pool: local-windows
   jobs:
   - job: 'deploy-sql'
