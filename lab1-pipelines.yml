@@ -61,5 +61,5 @@ stages:
                 ServerName: 'localhost'
                 DatabaseName: 'db-ronaldo-correa'
                 AuthScheme: sqlServerAuthentication
-                SqlUsername: 'sa'
+                SqlUsername: 'azure'
                 SqlPassword: '$(sql-dev-password)'
