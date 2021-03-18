@@ -36,9 +36,9 @@ stages:
   - deployment: VMDeploy
     displayName: mssql1
     environment:
-      name:  sql-development
+      name:  Local-Windows-SQL
       resourceType: VirtualMachine
-      tags: sql
+      tags: winsql
     strategy:
       runOnce:
         deploy:
