@@ -1,7 +1,8 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
+# CIT-326 - Week 13 - Infrastructure as a code 2 – using ci-cd pipelines for deployments
+# Azure PIPELINE - DACPAC file - MS-SQL Deployment
+# Faculty: David Miller 
+# version: 1
+############
 
 trigger:
 - main
@@ -23,7 +24,6 @@ stages:
         Contents: '**\db-ronaldo-correa.dacpac'
         TargetFolder: '$(build.artifactstagingdirectory)'
       condition: succeededOrFailed()
-
     - task: PublishBuildArtifacts@1
       displayName: 'Publish Artifact: drop'
       inputs:
@@ -43,17 +43,15 @@ stages:
       runOnce:
         deploy:
           steps:
-          - download: none
-
           - task: DownloadBuildArtifacts@0
+            displayName: 'Download Artifact File'
             inputs:
               buildType: current
               downloadType: single
               downloadPath: $(System.DefaultWorkingDirectory)
               artifactName: 'drop'
-
           - task: SqlDacpacDeploymentOnMachineGroup@0
-            displayName: 'Deploy using : dacpac db-ronaldo-correa'
+            displayName: 'Deploy using dacpac file'
             inputs:
                 tasktype: 'dacpac'
                 DacpacFile: '$(System.DefaultWorkingDirectory)/drop/db-ronaldo-correa.dacpac'
