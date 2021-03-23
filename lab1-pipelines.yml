@@ -1,4 +1,4 @@
-# CIT-326 - Week 13 - Infrastructure as a code 2 – using ci-cd pipelines for deployments
+# CIT-326 - Infrastructure as a code 2 – using ci-cd pipelines for deployments
 # Azure PIPELINE - DACPAC file - MS-SQL Deployment
 # Faculty: David Miller 
 # version: 1
@@ -21,7 +21,7 @@ stages:
       displayName: 'Copy Files from GitHub to Pipeline staging folder'
       inputs:
         SourceFolder: '$(system.defaultworkingdirectory)'
-        Contents: '**\db-ronaldo-correa.dacpac'
+        Contents: '**\$(dacpac-file-name)'
         TargetFolder: '$(build.artifactstagingdirectory)'
       condition: succeededOrFailed()
     - task: PublishBuildArtifacts@1
@@ -56,10 +56,10 @@ stages:
             displayName: 'Deploy using dacpac file'
             inputs:
                 tasktype: 'dacpac'
-                DacpacFile: '$(System.DefaultWorkingDirectory)/drop/db-ronaldo-correa.dacpac'
+                DacpacFile: '$(System.DefaultWorkingDirectory)/drop/$(dacpac-file-name)'
                 TargetMethod: 'server'
                 ServerName: 'localhost'
-                DatabaseName: 'db-ronaldo-correa'
+                DatabaseName: '$(sql-db-name)'
                 AuthScheme: sqlServerAuthentication
-                SqlUsername: 'azure'
-                SqlPassword: '$(sql-dev-password)'
+                SqlUsername: '$(sql-db-login)'
+                SqlPassword: '$(sql-db-password)'
